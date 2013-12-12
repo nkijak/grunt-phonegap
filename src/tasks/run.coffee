@@ -4,7 +4,8 @@ class module.exports.Run
   constructor: (@grunt, @config) ->
 
   run: (platform, device, fn) =>
-    cmd = "phonegap local run #{platform} #{@_setVerbosity()}"
+    phonegapCmd = require('./phonegapCmd').cmd;
+    cmd = "${phonegapCmd} run #{platform} #{@_setVerbosity()}"
     cmd += " --device #{device}" if device
     childProcess = @exec cmd, {
       cwd: @config.path,

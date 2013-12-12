@@ -11,9 +11,10 @@
     }
 
     Run.prototype.run = function(platform, device, fn) {
-      var childProcess, cmd,
+      var childProcess, cmd, phonegapCmd,
         _this = this;
-      cmd = "phonegap local run " + platform + " " + (this._setVerbosity());
+      phonegapCmd = require('./phonegapCmd').cmd;
+      cmd = "${phonegapCmd} run " + platform + " " + (this._setVerbosity());
       if (device) {
         cmd += " --device " + device;
       }

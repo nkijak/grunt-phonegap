@@ -3,6 +3,7 @@ class module.exports.Build
   cp: require 'cp'
   path: require 'path'
   exec: require('child_process').exec
+  phonegapCmd: require('./phonegapCmd').cmd
 
   constructor: (@grunt, @config) ->
     @file = @grunt.file
@@ -46,7 +47,8 @@ class module.exports.Build
       fn()
 
   addPlugin: (plugin, fn) =>
-    cmd = "phonegap local plugin add #{plugin} #{@_setVerbosity()}"
+    cmd = "#{@phonegapCmd} plugin add #{plugin} #{@_setVerbosity()}"
+    console.log("Running: [#{cmd}]")
     proc = @exec cmd, {
       cwd: @config.path,
       maxBuffer: @config.maxBuffer * 1024
@@ -65,7 +67,7 @@ class module.exports.Build
 
 
   buildPlatform: (platform, fn) =>
-    cmd = "phonegap local build #{platform} #{@_setVerbosity()}"
+    cmd = "#{@phonegapCmd} build #{platform} #{@_setVerbosity()}"
     childProcess = @exec cmd, {
       cwd: @config.path,
       maxBuffer: @config.maxBuffer * 1024

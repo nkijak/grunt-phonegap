@@ -10,6 +10,8 @@
 
     Build.prototype.exec = require('child_process').exec;
 
+    Build.prototype.phonegapCmd = require('./phonegapCmd').cmd;
+
     function Build(grunt, config) {
       this.grunt = grunt;
       this.config = config;
@@ -100,7 +102,8 @@
     Build.prototype.addPlugin = function(plugin, fn) {
       var cmd, proc,
         _this = this;
-      cmd = "phonegap local plugin add " + plugin + " " + (this._setVerbosity());
+      cmd = "" + this.phonegapCmd + " plugin add " + plugin + " " + (this._setVerbosity());
+      console.log("Running: [" + cmd + "]");
       proc = this.exec(cmd, {
         cwd: this.config.path,
         maxBuffer: this.config.maxBuffer * 1024
@@ -133,7 +136,7 @@
     Build.prototype.buildPlatform = function(platform, fn) {
       var childProcess, cmd,
         _this = this;
-      cmd = "phonegap local build " + platform + " " + (this._setVerbosity());
+      cmd = "" + this.phonegapCmd + " build " + platform + " " + (this._setVerbosity());
       childProcess = this.exec(cmd, {
         cwd: this.config.path,
         maxBuffer: this.config.maxBuffer * 1024
